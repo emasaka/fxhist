@@ -1,14 +1,14 @@
 #!/usr/bin/python
 import os
 import sys
+import argparse
 import glob
 import sqlite3
 
-if len(sys.argv) != 2 or not sys.argv[1].isdigit():
-    sys.stderr.write('usage: %s n' % (os.path.basename(sys.argv[0])))
-    sys.exit(1)
-
-num_records = sys.argv[1]
+parser = argparse.ArgumentParser(description='print Firefox histories')
+parser.add_argument('num_records', metavar='N', type=int, nargs=1,
+    help='number of records')
+args = parser.parse_args()
 
 dbfile_ptn = '~/.mozilla/firefox/*.default/places.sqlite'
 dbfile = glob.glob(os.path.expanduser(dbfile_ptn));
@@ -18,7 +18,8 @@ if len(dbfile) == 0:
 
 con = sqlite3.connect(dbfile[0])
 cur = con.cursor()
-cur.execute('SELECT p.title, p.url FROM moz_historyvisits AS h INNER JOIN moz_places AS p ON h.place_id = p.id ORDER BY h.id DESC LIMIT ?', (num_records))
+cur.execute('SELECT p.title, p.url FROM moz_historyvisits AS h INNER JOIN moz_places AS p ON h.place_id = p.id ORDER BY h.id DESC LIMIT ?', (args.num_records))
+
 for row in cur:
     print row[0], '|', row[1]
 
