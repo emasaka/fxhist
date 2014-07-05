@@ -21,3 +21,5 @@ cur = con.cursor()
 cur.execute('SELECT p.title, p.url FROM moz_historyvisits AS h INNER JOIN moz_places AS p ON h.place_id = p.id ORDER BY h.id DESC LIMIT ?', (num_records))
 for row in cur:
     print row[0], '|', row[1]
+
+con.close()
