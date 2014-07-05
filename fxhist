@@ -26,6 +26,6 @@ else:
     cur.execute('SELECT p.title, p.url FROM moz_historyvisits AS h INNER JOIN moz_places AS p ON h.place_id = p.id ORDER BY h.id DESC LIMIT ?', (args.num_records[0],))
 
 for row in cur:
-    print row[0] or '', '/', row[1]
+    print ((row[0] or '') + ' / ' + row[1]).encode('utf-8')
 
 con.close()
