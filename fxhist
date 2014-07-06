@@ -7,8 +7,9 @@ import sqlite3
 
 parser = argparse.ArgumentParser(description='print Firefox histories')
 parser.add_argument('num_records', metavar='N', type=int, nargs=1,
-    help='number of records')
-parser.add_argument('--excludeurl', metavar='PATTERN')
+                    help='number of records')
+parser.add_argument('-e', '--excludeurl', metavar='PATTERN',
+                    help='exclude URLs which matches to PATTERN')
 args = parser.parse_args()
 
 dbfile_ptn = '~/.mozilla/firefox/*.default/places.sqlite'
