@@ -14,9 +14,9 @@ args = parser.parse_args()
 
 dbfile_ptn = '~/.mozilla/firefox/*.default/places.sqlite'
 dbfile = glob.glob(os.path.expanduser(dbfile_ptn));
-if len(dbfile) == 0:
+if not dbfile:
     sys.stderr.write('database not found')
-    exit(1)
+    sys.exit(1)
 
 con = sqlite3.connect(dbfile[0])
 cur = con.cursor()
