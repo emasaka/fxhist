@@ -10,6 +10,8 @@ parser.add_argument('num_records', metavar='N', type=int, nargs=1,
                     help='number of records')
 parser.add_argument('-e', '--excludeurl', metavar='PATTERN', action='append',
                     help='exclude URLs which matches to PATTERN')
+parser.add_argument('-d', '--dedupe', action='store_true',
+                    help='dedupe results')
 args = parser.parse_args()
 
 dbfile_ptn = '~/.mozilla/firefox/*.default/places.sqlite'
@@ -21,7 +23,10 @@ if not dbfile:
 con = sqlite3.connect(dbfile[0])
 cur = con.cursor()
 
-sql = 'SELECT p.title, p.url FROM moz_historyvisits AS h INNER JOIN moz_places AS p ON h.place_id = p.id'
+sql = 'SELECT'
+if args.dedupe:
+    sql += ' DISTINCT'
+sql += ' p.title, p.url FROM moz_historyvisits AS h INNER JOIN moz_places AS p ON h.place_id = p.id'
 if args.excludeurl:
     sql += ' WHERE' + ' AND'.join([' p.url NOT LIKE ?' for i in xrange(len(args.excludeurl))])
 sql += ' ORDER BY h.id DESC LIMIT ?'
