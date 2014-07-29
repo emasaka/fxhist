@@ -22,9 +22,9 @@ Prints URLs that recent accessed by Firefox.
 
 ## EXAMPLES
 
-Select URL by [percol](https://github.com/mooz/percol) and open it.
+Select URLs by [percol](https://github.com/mooz/percol) and open it.
 
-    $ fxhist -d --e %mail.google.com% 100 | percol | sed 's/.* //' | xargs xdg-open
+    $ fxhist -d --e %mail.google.com% 100 | percol | sed 's/.* //' | xargs -n 1 xdg-open
 
 ## AUTHOR
 
