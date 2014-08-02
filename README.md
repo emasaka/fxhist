@@ -4,7 +4,7 @@ Print Firefox histories from command line
 
 ## SYNOPSIS
 
-    fxhist [-h] [--e PATTERN ...] N
+    fxhist [-h] [-d] [-e PATTERN ...] N
 
 ## DESCRIPTION
 
@@ -24,7 +24,7 @@ Prints URLs that recent accessed by Firefox.
 
 Select URLs by [percol](https://github.com/mooz/percol) and open it.
 
-    $ fxhist -d --e %mail.google.com% 100 | percol | sed 's/.* //' | xargs -n 1 xdg-open
+    $ fxhist -d -e %mail.google.com% 100 | percol | sed 's/.* //' | xargs -n 1 xdg-open
 
 ## AUTHOR
 
