@@ -28,7 +28,7 @@ if args.dedupe:
     sql += ' DISTINCT'
 sql += ' p.title, p.url FROM moz_historyvisits AS h INNER JOIN moz_places AS p ON h.place_id = p.id'
 if args.excludeurl:
-    sql += ' WHERE' + ' AND'.join([' p.url NOT LIKE ?' for i in xrange(len(args.excludeurl))])
+    sql += ' WHERE' + ' AND'.join([' p.url NOT LIKE ?'] * len(args.excludeurl))
 sql += ' ORDER BY h.id DESC LIMIT ?'
 cur.execute(sql, tuple(args.excludeurl or ()) + (args.num_records[0],))
 
