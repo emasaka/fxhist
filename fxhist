@@ -5,6 +5,10 @@ import argparse
 import glob
 import sqlite3
 
+if sys.version_info.major == 2:
+    import codecs
+    sys.stdout = codecs.getwriter('utf-8')(sys.stdout)
+
 parser = argparse.ArgumentParser(description='print Firefox histories')
 parser.add_argument('num_records', metavar='N', type=int, nargs=1,
                     help='number of records')
@@ -23,7 +27,7 @@ if not dbfile:
 con = sqlite3.connect(dbfile[0])
 cur = con.cursor()
 
-sql = 'SELECT'
+sql = u'SELECT'
 if args.dedupe:
     sql += ' DISTINCT'
 sql += ' p.title, p.url FROM moz_historyvisits AS h INNER JOIN moz_places AS p ON h.place_id = p.id'
@@ -33,6 +37,6 @@ sql += ' ORDER BY h.id DESC LIMIT ?'
 cur.execute(sql, tuple(args.excludeurl or ()) + (args.num_records[0],))
 
 for row in cur:
-    print ((row[0] or '') + ' / ' + row[1]).encode('utf-8')
+    print ((row[0] or '') + ' / ' + row[1])
 
 con.close()
