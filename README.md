@@ -18,7 +18,6 @@ Prints URLs that recent accessed by Firefox.
 ## LIMITATION
 
 * Supports only Linux desktop
-* Runs on Python 2.x
 
 ## EXAMPLES
 
