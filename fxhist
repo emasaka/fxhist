@@ -1,6 +1,7 @@
 #!/usr/bin/python
 import os
 import sys
+import errno
 import argparse
 import glob
 import sqlite3
@@ -36,7 +37,11 @@ if args.excludeurl:
 sql += ' ORDER BY h.id DESC LIMIT ?'
 cur.execute(sql, tuple(args.excludeurl or ()) + (args.num_records[0],))
 
-for row in cur:
-    print ((row[0] or '') + ' / ' + row[1])
+try:
+    for row in cur:
+        print ((row[0] or '') + ' / ' + row[1])
+except IOError:
+    if sys.exc_info()[1].errno != errno.EPIPE:
+        sys.exit()
 
 con.close()
